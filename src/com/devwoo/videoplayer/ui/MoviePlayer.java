@@ -5,7 +5,11 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnSystemUiVisibilityChangeListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.VideoView;
 
 import com.devwoo.videoplayer.R;
@@ -14,7 +18,7 @@ import com.devwoo.videoplayer.utils.Log;
 
 public class MoviePlayer implements MediaPlayer.OnErrorListener,
 		MediaPlayer.OnCompletionListener, MediaPlayer.OnInfoListener,
-		MediaPlayer.OnVideoSizeChangedListener {
+		MediaPlayer.OnVideoSizeChangedListener,ControllerOverlay.Listener {
 
 	private static final String TAG = "MoviePlayer";
 	private static final int BLACK_TIMEOUT = 500;
@@ -27,6 +31,8 @@ public class MoviePlayer implements MediaPlayer.OnErrorListener,
 	private VideoView mVideoView;
 	private int mVideoPosition = 0;
 	private boolean mHasPaused = false;
+	private MovieControllerOverlay mController;
+	private int mLastVisibility = 0;
 
 	public MoviePlayer(View rootView, MovieActivity activity,
 			Bundle savedInstance, boolean canReplay, Uri videoUri) {
@@ -37,9 +43,22 @@ public class MoviePlayer implements MediaPlayer.OnErrorListener,
 		mUri = videoUri;
 		mRootView = rootView;
 		mVideoView = (VideoView)rootView.findViewById(R.id.video_view);
+		mController = new MovieControllerOverlay(mContext);
+		((ViewGroup)rootView).addView(mController.getView());
+		mController.setListener(this);
 		mVideoView.setOnErrorListener(this);
 		mVideoView.setOnCompletionListener(this);
 		mVideoView.setVideoURI(mUri);
+		
+		mVideoView.setOnTouchListener(new OnTouchListener(){
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				mController.show();
+				return true;
+			}
+			
+		});
 
 		mVideoView.setOnPreparedListener(new OnPreparedListener() {
 
@@ -58,6 +77,8 @@ public class MoviePlayer implements MediaPlayer.OnErrorListener,
 			}
 
 		}, BLACK_TIMEOUT);
+		
+		setOnSystemUiVisibilityChangeListener();
 
 		if (savedInstance != null) {
 			mVideoPosition = savedInstance.getInt(KEY_VIDEO_POSITION, 0);
@@ -71,6 +92,21 @@ public class MoviePlayer implements MediaPlayer.OnErrorListener,
 		}
 	}
 
+	private void setOnSystemUiVisibilityChangeListener(){
+		mVideoView.setOnSystemUiVisibilityChangeListener(new OnSystemUiVisibilityChangeListener(){
+
+			@Override
+			public void onSystemUiVisibilityChange(int visible) {
+				int diff = mLastVisibility ^ visible;
+				mLastVisibility = visible;
+				if((diff & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) != 0
+						&& (visible & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0){
+					mController.show();
+				}
+			}
+			
+		});
+	}
 	private void startVideo() {
 		Log.d(TAG, "--------startVideo------------");
 		mVideoView.start();
@@ -125,5 +161,40 @@ public class MoviePlayer implements MediaPlayer.OnErrorListener,
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 
+	}
+
+	@Override
+	public void onPlayPause() {
+		
+	}
+
+	@Override
+	public void onSeekStart() {
+		
+	}
+
+	@Override
+	public void onSeekMove(int time) {
+		
+	}
+
+	@Override
+	public void onSeekEnd(int time, int trimStartTime, int trimEndTime) {
+		
+	}
+
+	@Override
+	public void onShown() {
+		
+	}
+
+	@Override
+	public void onHidden() {
+		
+	}
+
+	@Override
+	public void onReplay() {
+		
 	}
 }

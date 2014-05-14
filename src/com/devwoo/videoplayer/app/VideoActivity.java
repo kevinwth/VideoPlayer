@@ -125,7 +125,6 @@ public class VideoActivity extends Activity implements
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//		View itemView = getParent(view);
 		if(view != null){
 			Log.d(TAG, "--------- filePath--- "+((ViewHolder)view.getTag()).video.filePath);
 			
@@ -133,8 +132,6 @@ public class VideoActivity extends Activity implements
 					Uri.parse(((ViewHolder)view.getTag()).video.filePath), "video/*");
 			intent.setClass(VideoActivity.this, MovieActivity.class);
 			startActivity(intent);
-					
-		
 		}
 	}
 	

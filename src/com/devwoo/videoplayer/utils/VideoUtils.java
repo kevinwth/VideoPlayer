@@ -7,6 +7,10 @@ public class VideoUtils {
 
 	private static final String TAG = "VideoUtils";
 
+	public static <T> T checkNotNull(T object){
+		if(object == null) throw new  NullPointerException();
+		return object;
+	}
 
 	public static String durationFormat(long duration) {
 		String result;

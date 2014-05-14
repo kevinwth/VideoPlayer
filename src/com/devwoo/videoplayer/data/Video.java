@@ -1,5 +1,8 @@
 package com.devwoo.videoplayer.data;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -13,6 +16,7 @@ import com.devwoo.videoplayer.utils.Log;
 public class Video {
 
 	private static final String TAG = "video";
+	private static final int INVALID_ID = -1;
 	
 	private static final int INDEX_ID = 0;
 	private static final int INDEX_MIMETYPE = 1;
@@ -61,6 +65,14 @@ public class Video {
 		thumbnail = ThumbnailUtils.createVideoThumbnail(filePath, Thumbnails.MINI_KIND);
 	}
 
+	public static void deleteVideo(Context context,int videoId){
+		if(videoId == INVALID_ID) return ;
+		ContentResolver cr = context.getContentResolver();
+		Uri uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, videoId);
+		
+		cr.delete(uri, "", null);
+		
+	}
 	
 	public Uri getContentUri() {
 		Uri baseUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;

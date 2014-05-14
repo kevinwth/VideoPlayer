@@ -8,4 +8,10 @@
     <string name="video_thumbnail">Video thumbnail</string>
     <string name="movie_label">Video player</string>
     <string name="empty">No video</string>
+    
+    <string name="accessibility_time_bar">Video player time bar</string>
+    <string name="loading_video">Loading video\u2026</string>
+    <string name="accessibility_play_video">Play video</string>
+    <string name="accessibility_reload_video">Reload video</string>
+    <string name="accessibility_pause_video">Pause video</string>
 </resources>
