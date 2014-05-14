@@ -5,4 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="video_thumbnail">Video thumbnail</string>
+    <string name="movie_label">Video player</string>
+    <string name="empty">No video</string>
 </resources>

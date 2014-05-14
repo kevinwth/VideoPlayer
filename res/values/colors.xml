@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="list_bg_1">#ff65b4c1</color>
+    <color name="list_bg_2">#ff3896d7</color>
+    <color name="list_bg_3">#ff776ac1</color>
+    <color name="list_bg_4">#ff4ebd81</color>
+    <color name="list_bg_5">#ffe5a949</color>
+    <color name="list_bg_6">#ffea653d</color>
+    <color name="list_bg_7">#ffdd363e</color>
+    <color name="list_bg_8">#ffa0bf55</color>
+    <color name="list_bg_9">#ffc88ac9</color>
+    <color name="list_bg_10">#ff26a9bd</color>
+    <color name="list_bg_11">#ff31a967</color>
+</resources>
